@@ -5,7 +5,9 @@ const search = document.getElementById('search'),
   mealsEl = document.getElementById('meals'),
   single_mealEl = document.getElementById('single-meal');
 
-// Search meal and fetch from API
+let meals = [];
+
+// function to Search meal and fetch from API
 function searchMeal(e) {
   e.preventDefault();
 
@@ -140,12 +142,20 @@ function addMeal(e) {
       .then((data) => {
         const meal = data.meals[0];
 
-        var div = document.createElement('div');
+        // store object in local store
+        let storeMeal = {
+          thumbnail: meal.strMealThumb,
+          heading: meal.strMeal,
+        };
+        meals.push(storeMeal);
+        window.localStorage.setItem('meal', JSON.stringify(meals));
+
+        let div = document.createElement('div');
         div.innerHTML = `
           <div class='fav-container'>
            
-            <img src = '${meal.strMealThumb}' alt = '${meal.strMeal}' />
-            <h1 class='heading'>${meal.strMeal}</h1>
+            <img src = '${storeMeal.thumbnail}' alt = '${storeMeal.strMeal}' />
+            <h1 class='heading'>${storeMeal.heading}</h1>
             <span onclick = 'deleteMeal(event);'><i class="fa-solid fa-rectangle-xmark"></i></span>
             
           </div>
@@ -156,7 +166,7 @@ function addMeal(e) {
 }
 
 function deleteMeal(e) {
-  console.log(e);
+  // console.log(e);
 
   const mealInfo = e.path.find((item) => {
     if (item.classList) {
@@ -167,8 +177,37 @@ function deleteMeal(e) {
     }
   });
 
-  mealInfo.remove();
-  console.log(mealInfo);
+  let mealHeading = mealInfo.querySelector('h1').innerText;
 
-  // favDiv.innerHTML = '';
+  meals = meals.filter((meal) => {
+    return meal.heading != mealHeading;
+  });
+
+  // console.log(meals);
+
+  window.localStorage.setItem('meal', JSON.stringify(meals));
+
+  mealInfo.remove();
 }
+
+const initialize = function () {
+  const mealsData = JSON.parse(window.localStorage.getItem('meal'));
+
+  meals = [...mealsData];
+
+  for (let i = 0; i < meals.length; i++) {
+    let getMeal = meals[i];
+    console.log(getMeal);
+    let div = document.createElement('div');
+    div.innerHTML = `
+          <div class='fav-container'>
+           
+            <img src = '${getMeal.thumbnail}'  />
+            <h1 class='heading'>${getMeal.heading}</h1>
+            <span onclick = 'deleteMeal(event);'><i class="fa-solid fa-rectangle-xmark"></i></span>
+            
+          </div>
+        `;
+    favDiv.appendChild(div);
+  }
+};
