@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>meal</title>
+    <link rel="stylesheet" href="sytles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Eat for Nirvana</h1>
+
+      <div class="flex">
+        <form class="flex" id="submit"></form>
+        <input type="text" id="search" placeholder="search.." />
+        <button class="search-btn" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="fav-btn" onclick="toggleList()">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <section class="content" id="popup">
+        <div class="close-btn" onclick="toggleList()">&times;</div>
+        <h1>favourite meals list</h1>
+        <div id="favDiv"></div>
+      </section>
+
+      <div id="result-heading"></div>
+      <div id="meals" class="meals"></div>
+      <div id="single-meal"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
