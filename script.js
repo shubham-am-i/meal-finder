@@ -147,6 +147,7 @@ function addMeal(e) {
           thumbnail: meal.strMealThumb,
           heading: meal.strMeal,
         };
+        // Push to global Array
         meals.push(storeMeal);
         window.localStorage.setItem('meal', JSON.stringify(meals));
 
@@ -160,11 +161,13 @@ function addMeal(e) {
             
           </div>
         `;
+        // Rendering on DOM
         favDiv.appendChild(div);
       });
   }
 }
 
+// Delete meal from favourite list
 function deleteMeal(e) {
   // console.log(e);
 
@@ -179,17 +182,19 @@ function deleteMeal(e) {
 
   let mealHeading = mealInfo.querySelector('h1').innerText;
 
+  // returns all heading except selected one of close button
   meals = meals.filter((meal) => {
     return meal.heading != mealHeading;
   });
 
-  // console.log(meals);
-
+  
+// Updating local storage before removing favourite meal from list
   window.localStorage.setItem('meal', JSON.stringify(meals));
 
   mealInfo.remove();
 }
 
+// function to set favourite list after browser refresh
 const initialize = function () {
   const mealsData = JSON.parse(window.localStorage.getItem('meal'));
 
